@@ -53,6 +53,7 @@
     <footer>Copyright &copy;<span id="year"></span></footer>
 </body>
 <script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/common.js"></script>
 <script type="text/javascript">
     apiready = function() {
         //输出Log，Log将显示在APICloud Studio控制台
@@ -69,8 +70,8 @@
         var footerH = $api.fixTabBar(footer);
 
         api.openFrame({
-            name: 'main',
-            url: 'html/main.html',
+            name: 'login',
+            url: 'html/login.html',
             bounces: true,
             rect: { // 推荐使用Margin布局，用于适配屏幕的动态变化
                 marginTop: headerH, // main页面距离win顶部的高度
