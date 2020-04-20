@@ -7,70 +7,115 @@
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <script type="text/javascript" src="../script/rem.js"></script>
     <style>
-        label {
-            margin: 10px;
-            font-size: 24px;
+        html,
+        body {
+            height: 100%;
+            padding-bottom:1rem;
+            box-sizing: border-box;
         }
-
-        ul {
-            margin-bottom: 10px;
-        }
-
-        ul li {
-            margin: 5px 10px;
-            padding: 5px;
-            color: #000;
-            word-wrap: break-word;
-        }
-        .red-size{
-          font-size:50px;
-          color:red;
+        .btn{
+          font-size:0.48rem;
+          color:blue;
         }
     </style>
 </head>
 
 <body>
-    <label>Hello APP</label>
-    <p class="red-size">自己建的一个按钮</p>
-    <div id='sys-info'></div>
+    <header id="header" class="header" >
+      <div class="item"></div>
+      <div class="item">首页首页首页首页首页首页首页首页</div>
+      <div class="item"></div>
+    </header>
+    <div class="wrapper" id="home">
+      <label>首页</label>
+      <input type="button" class="btn" @click="jumpHomeDetail" value="跳转到首页详情" >
+      <div id='sys-info' v-html="msg"></div>
+    </div>
+    <footer id="footer" class="footer" >
+      <ul class="clearfix">
+        <li onclick="AppFun.tabFooterNavChange(0)" class="tab1 active">首页</li>
+        <li onclick="AppFun.tabFooterNavChange(1)" class="tab2">发现</li>
+        <li onclick="AppFun.tabFooterNavChange(2)" class="tab3">爱车展厅</li>
+        <li onclick="AppFun.tabFooterNavChange(3)" class="tab4">经纪人</li>
+        <li onclick="AppFun.tabFooterNavChange(4)" class="tab5">我的</li>
+      </ul>
+    </footer>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="./script/common.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
     apiready = function() {
-        var ver = api.version;
-        var sType = api.systemType;
-        var sVer = api.systemVersion;
-        var id = api.deviceId;
-        var model = api.deviceModel;
-        var name = api.deviceName;
-        var cType = api.connectionType;
-        var winName = api.winName;
-        var winWidth = api.winWidth;
-        var winHeight = api.winHeight;
-        var frameName = api.frameName || '';
-        var frameWidth = api.frameWidth || '';
-        var frameHeight = api.frameHeight || '';
+        api.setStatusBarStyle({
+              style:'dark',
+              color:'#FFFFFF'
+        });
+        var header = $api.byId('header'); // 获取 header 标签元素
+        var footer = $api.byId('footer'); // 获取 footer 标签元素
 
-        var str = '<ul>';
-        str += '<li>引擎版本信息: ' + ver + '</li>';
-        str += '<li>系统类型: ' + sType + '</li>';
-        str += '<li>系统版本: ' + sVer + '</li>';
-        str += '<li>设备标识: ' + id + '</li>';
-        str += '<li>设备型号: ' + model + '</li>';
-        str += '<li>设备名称: ' + name + '</li>';
-        str += '<li>网络状态: ' + cType + '</li>';
-        str += '<li>主窗口名字: ' + winName + '</li>';
-        str += '<li>主窗口宽度: ' + winWidth + '</li>';
-        str += '<li>主窗口高度: ' + winHeight + '</li>';
-        str += '<li>子窗口名字: ' + frameName + '</li>';
-        str += '<li>子窗口宽度: ' + frameWidth + '</li>';
-        str += '<li>子窗口高度: ' + frameHeight + '</li>';
-        str += '</ul>';
+        // 1.修复开启沉浸式效果带来的顶部Header与手机状态栏重合的问题，最新api.js方法已支持适配iPhoneX；
+        // 2.默认已开启了沉浸式效果 config.xml中 <preference name="statusBarAppearance" value="true"/>
+        // 3.沉浸式效果适配支持iOS7+，Android4.4+以上版本
+        var headerH = $api.fixStatusBar(header);
+        // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
+        var footerH = $api.fixTabBar(footer);
 
-        $api.byId('sys-info').innerHTML = str;
+        var  vm=new Vue({
+              el:'#home',
+              data:{
+                msg:''
+              },
+              methods:{
+                jumpHomeDetail:function(){
+                  api.openFrame({
+                      name: 'homedetail',
+                      url: 'home_detail.html',
+                      bounces:false,
+                  });
+                },
+                //获取设备信息
+                getInfo:function(){
+                  var ver = api.version;
+                  var sType = api.systemType;
+                  var sVer = api.systemVersion;
+                  var id = api.deviceId;
+                  var model = api.deviceModel;
+                  var name = api.deviceName;
+                  var cType = api.connectionType;
+                  var winName = api.winName;
+                  var winWidth = api.winWidth;
+                  var winHeight = api.winHeight;
+                  var frameName = api.frameName || '';
+                  var frameWidth = api.frameWidth || '';
+                  var frameHeight = api.frameHeight || '';
 
+                  var str = '<ul>';
+                  str += '<li>引擎版本信息: ' + ver + '</li>';
+                  str += '<li>系统类型: ' + sType + '</li>';
+                  str += '<li>系统版本: ' + sVer + '</li>';
+                  str += '<li>设备标识: ' + id + '</li>';
+                  str += '<li>设备型号: ' + model + '</li>';
+                  str += '<li>设备名称: ' + name + '</li>';
+                  str += '<li>网络状态: ' + cType + '</li>';
+                  str += '<li>主窗口名字: ' + winName + '</li>';
+                  str += '<li>主窗口宽度: ' + winWidth + '</li>';
+                  str += '<li>主窗口高度: ' + winHeight + '</li>';
+                  str += '<li>子窗口名字: ' + frameName + '</li>';
+                  str += '<li>子窗口宽度: ' + frameWidth + '</li>';
+                  str += '<li>子窗口高度: ' + frameHeight + '</li>';
+                  str += '</ul>';
+
+                  //$api.byId('sys-info').innerHTML = str;
+                  this.msg=str;
+                }
+              },
+              mounted:function(){
+                this.getInfo();
+              }
+        })
     };
 </script>
 

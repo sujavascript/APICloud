@@ -7,24 +7,52 @@
     <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <script type="text/javascript" src="../script/rem.js"></script>
     <style>
-
+      html,
+      body {
+          height: 100%;
+      }
     </style>
 </head>
 
 <body>
-    <div>登录页</div>
-    <div>登录页</div>
-    <div>登录页</div>
-    <div>登录页</div>
-    <div>登录页</div>
-    <div>登录页</div>
+    <div id="login" style="padding:1.2rem 0.3rem;">
+      <div style="text-align:center;font-size:0.48rem;">{{msg}}</div>
+      <div style="font-size:0.48rem;">用户名:<input type="text" placeholder="请输入姓名" /></div>
+      <div style="font-size:0.48rem;">密码:<input type="password" placeholder="请输入密码" /></div>
+      <div style="text-align:center;font-size:0.48rem;" @click="clickFun">登录</div>
+    </div>
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
-<script type="text/javascript" src="./script/common.js"></script>
+<script type="text/javascript" src="../script/vue.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
 <script type="text/javascript">
     apiready = function() {
+      //$api.fixStatusBar($api.dom('header'));
+      //更改状态栏字体颜色
+      api.setStatusBarStyle({
+         style: 'dark',//字体颜色
+        color: '#fff'//背景颜色
+      });
+        var  vm=new Vue({
+              el:'#login',
+              data:{
+                msg:'易脉车注销终端'
+              },
+              methods:{
+                clickFun:function(){
+                  api.openFrame({
+                      name: 'home',
+                      url: 'home.html',
+                      bounces:false
+                  });
+                }
+              },
+              mounted:function(){
 
+              }
+        })
     };
 </script>
 
