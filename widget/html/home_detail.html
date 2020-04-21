@@ -19,13 +19,13 @@
 
 <body>
     <header id="header" class="header" >
-      <div class="item" onclick="goBack()" >返回</div>
+      <div class="item" tapmode onclick="goBack()" >返回</div>
       <div class="item">首页详情</div>
       <div class="item"></div>
     </header>
     <div id="homeDetail" class="wrapper">
       <p>首页详情</p>
-      <h2 @click="callFun">点击拨打电话</h2>
+      <h2 tapmode @click="callFun">点击拨打电话</h2>
       <h2>数据接口请求</h2>
       <ol>
         <li style="margin:0.2rem 0;" :key="index" v-for="(item,index) in dataList">

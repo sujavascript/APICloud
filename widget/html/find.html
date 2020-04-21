@@ -8,6 +8,7 @@
     <title>Hello APP</title>
     <link rel="stylesheet" type="text/css" href="../css/api.css" />
     <link rel="stylesheet" type="text/css" href="../css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../css/swiper.min.css" />
     <script type="text/javascript" src="../script/rem.js"></script>
     <style>
         html,
@@ -27,6 +28,17 @@
     </header>
     <div class="wrapper">
       <label>发现</label>
+      <div class="swiper-container" style="width:6.0rem;height:4.0rem;overflow:hidden;">
+          <div class="swiper-wrapper" style="width:100%;">
+              <div class="swiper-slide"><img src="../image/swiper/1.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="../image/swiper/2.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="../image/swiper/3.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="../image/swiper/4.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="../image/swiper/5.jpg" alt=""></div>
+              <div class="swiper-slide"><img src="../image/swiper/6.jpg" alt=""></div>
+          </div>
+          <div class="swiper-pagination"></div><!--分页器。如果放置在swiper-container外面，需要自定义样式。-->
+      </div>
     </div>
     <footer id="footer" class="footer" >
       <ul class="clearfix">
@@ -40,6 +52,7 @@
 </body>
 <script type="text/javascript" src="../script/api.js"></script>
 <script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/swiper.min.js"></script>
 <script type="text/javascript">
     apiready = function() {
         api.setStatusBarStyle({
@@ -56,7 +69,20 @@
         // 最新api.js为了适配iPhoneX增加的方法，修复底部Footer部分与iPhoneX的底部虚拟横条键重叠的问题；
         var footerH = $api.fixTabBar(footer);
 
+        initSwiper();
     };
+
+    //初始化轮播图方法
+    function initSwiper(){
+      var mySwiper = new Swiper ('.swiper-container', {
+          direction: 'horizontal',
+          autoplay:true,
+          loop: true,
+          pagination: {
+            el: '.swiper-pagination',
+          },
+      })
+    }
 </script>
 
 </html>
